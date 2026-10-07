@@ -1,12 +1,18 @@
-from pydantic import BaseModel , Field
-from typing import Optional
+from pydantic import BaseModel, Field,computed_field
 
-class Employee(BaseModel):
-    id : int
-    name : str = Field(...,min_length = 3,max_length = 50,description = "Employee name")
-    department : Optional[str] = "General"
-    salary : float = Field(...,ge = 10000)
+class Booking(BaseModel):
+    user_id : int
+    room_id : int
+    nights : int = Field(...,ge=1, description = "Number of nights must be at least 1")
+    rate_per_night : float
 
-inp = {"id": 101, "name": "Yash Dave", "salary": 15000}
-emp = Employee(**inp)
-print(emp)
+    @computed_field
+    @property
+    def total_amount(self) -> float:
+        return self.nights * self.rate_per_night
+
+
+inp = {"user_id": 1, "room_id": 101, "nights": 3, "rate_per_night": 150.0}
+
+book =Booking(**inp)
+print(book)
