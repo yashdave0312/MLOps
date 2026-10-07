@@ -2,6 +2,7 @@ from typing import List,Optional
 from pydantic import BaseModel, Field
 
 
+
 # Using one class as a field in another class is called nesting. This is useful for creating complex data models.
 
 class Address(BaseModel):
